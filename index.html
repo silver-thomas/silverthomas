@@ -78,7 +78,7 @@ fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRr
   redirect: 'follow',
     method: 'POST',
 //    mode: 'no-cors',
-  body: formData,
+  body: JSON.stringify(formData),
 })
     .then(response => {
     console.log('Response status:', response.status); // Log status code
