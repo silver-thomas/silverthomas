@@ -74,27 +74,46 @@
             };
 
             // Send data to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRrveTRr4fRQ_lK3OQFBFfjaK9UTDjzp1tBm-JA/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    alert('Booking request submitted successfully!');
-                    form.reset();
-                } else {
-                    alert('Error submitting booking. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error submitting booking. Please try again.');
-            });
+fetch('https://your-proxy-url.com/submit', {
+  method: 'POST',
+  body: JSON.stringify(formData),
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+.then(response => {
+    console.log('Response status:', response.status); // Log status code
+    console.log('Response headers:', response.headers); // Log headers
+
+    if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    return response.text(); // Use text() temporarily to see the raw response
+})
+.then(data => {
+    console.log('Raw response:', data); // Log raw response data
+
+    // Try parsing the response as JSON
+    try {
+        const json = JSON.parse(data);
+        console.log('Parsed JSON:', json);
+
+        if (json.result === 'success') {
+            alert('Booking request submitted successfully!');
+            form.reset();
+        } else {
+            alert('Error submitting booking: ' + json.message);
+        }
+    } catch (error) {
+        console.error('Error parsing JSON:', error);
+        alert('Invalid JSON response from the server.');
+    }
+})
+.catch(error => {
+    console.error('Error occurred:', error);
+    alert('Error submitting booking. Please try again.');
+});
         });
     </script>
 </body>
