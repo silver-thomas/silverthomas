@@ -82,16 +82,7 @@ fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRr
     'Content-Type': 'application/json',
   },
 })
-.then(response => {
-    console.log('Response status:', response.status); // Log status code
-    console.log('Response headers:', response.headers); // Log headers
 
-    if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-    }
-
-    return response.text(); // Use text() temporarily to see the raw response
-})
 .then(data => {
     console.log('Raw response:', data); // Log raw response data
 
@@ -110,6 +101,17 @@ fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRr
         console.error('Error parsing JSON:', error);
         alert('Invalid JSON response from the server.');
     }
+})
+    
+    .then(response => {
+    console.log('Response status:', response.status); // Log status code
+    console.log('Response headers:', response.headers); // Log headers
+
+    if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    return response.text(); // Use text() temporarily to see the raw response
 })
 .catch(error => {
     console.error('Error occurred:', error);
