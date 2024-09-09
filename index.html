@@ -80,7 +80,16 @@ fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRr
 //    mode: 'no-cors',
   body: formData,
 })
+    .then(response => {
+    console.log('Response status:', response.status); // Log status code
+    console.log('Response headers:', response.headers); // Log headers
 
+    if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    return response.text(); // Use text() temporarily to see the raw response
+})
 .then(data => {
     console.log('Raw response:', data); // Log raw response data
 
@@ -101,16 +110,7 @@ fetch('https://script.google.com/macros/s/AKfycbzXp-ZFEqNgEv2d-Ii0eWB0PBW7G13fRr
     }
 })
     
-    .then(response => {
-    console.log('Response status:', response.status); // Log status code
-    console.log('Response headers:', response.headers); // Log headers
 
-    if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-    }
-
-    return response.text(); // Use text() temporarily to see the raw response
-})
 .catch(error => {
     console.error('Error occurred:', error);
     alert('Error submitting booking. Please try again.');
